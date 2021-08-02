@@ -22,6 +22,14 @@
         </el-form-item>
         <el-form-item>
           <el-input
+            placeholder="请再次确认密码"
+            v-model="nextpd"
+            show-password
+            name="nextpd">
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input
             placeholder="请输入邮箱"
             v-model="email"
             name="email">
@@ -29,8 +37,8 @@
         </el-form-item>
       </el-form>
       <div class="hello2"> 
-          <router-link to="/login">点我去登录</router-link>
-        <el-button @click="select">注册</el-button>
+          <el-button type="primary"><router-link to="/login">登录</router-link></el-button>
+        <el-button type="primary" @click="select">注册</el-button>
       </div>
     </div>
   </div>
@@ -45,6 +53,7 @@ import { postUser2Info } from '../../api/index.js'
     name: 'hello',
     data () {
       return {
+        nextpd:'',
        username:'',
        password:'',
        email:'',
@@ -65,7 +74,7 @@ import { postUser2Info } from '../../api/index.js'
             }else{
                 this.$message({
               showClose: true,
-              message: '注册失败!',
+              message: data.msg,
               type: 'error'
             });
             }
@@ -78,7 +87,7 @@ import { postUser2Info } from '../../api/index.js'
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
   .hello{
-    background:url("../../assets/c.png") no-repeat center;
+    background:url("../../assets/22.jpg") no-repeat center;
     position: fixed;
     height: 100%;
     width: 100%;

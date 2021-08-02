@@ -1,202 +1,237 @@
 <template>
   <div class="a3">
+    <h2>告警推送</h2>
     <div class="a31">
-      <h2>告警值设置</h2>
+      
       <table>
+        <tr>
+          <td>
+             <h3>告警值设置</h3>
+            </td>
+            <td width="500px">
+            </td>
+        </tr>
         <tr>
           <td>CPU:</td>
           <td>
-            <el-input placeholder="请输入CPU" v-model="cpu" clearable>
-            </el-input>
+            <div class="block">
+    <el-slider
+      v-model="cpua"
+      show-input>
+    </el-slider>
+  </div>
           </td>
-          <td>%</td>
         </tr>
         <tr>
           <td>内存:</td>
           <td>
-            <el-input placeholder="请输入内存" v-model="nei" clearable>
-            </el-input>
+            <div class="block">
+    <el-slider
+      v-model="mema"
+      show-input>
+    </el-slider>
+  </div>
           </td>
-          <td>%</td>
+         
         </tr>
         <tr>
           <td>磁盘:</td>
           <td>
-            <el-input placeholder="请输入磁盘" v-model="ci" clearable>
-            </el-input>
+            <div class="block">
+    <el-slider
+      v-model="diska"
+      show-input>
+    </el-slider>
+  </div>
           </td>
-          <td>%</td>
+          
         </tr>
         <tr>
           <td>
-          
+          <!-- <el-button>修改</el-button> -->
           </td>
-          <td>
-             <el-button
-                size="mini" style="margin:2px"
-                @click="handleEdit(scope.$index, scope.row)"
-                >确定</el-button
-              >
-              <el-button
-                size="mini"
-                type="danger" style="margin:2px"
-                @click="handleDelete(scope.$index, scope.row)"
-                >取消</el-button
-              >
+           <td style="padding-left:140px">
+          <el-button @click="eedit()" >修改</el-button>
           </td>
         </tr>
       </table>
     </div>
 
     <div class="a32">
-      <h2>告警推送邮箱</h2>
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column label="用户名" width="180">
+          <h3>预警推送邮箱</h3>
+        <el-table :data="adata">
+          <el-table-column prop="yx" label="收件人邮箱">
             <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+              <el-input v-model="scope.row.yx" 
+                        v-if="scope.row.seen"> </el-input>
+              <span style="margin-left: 10px"  v-else>{{ scope.row.email }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="邮箱地址" width="180">
+          <el-table-column prop="check1" label="CPU警告是否发送">
             <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+              <el-checkbox v-model="scope.row.check1" style="padding-left: 50px;"
+                        v-if="scope.row.seen"> </el-checkbox>
+              <el-checkbox style="padding-left: 50px;" v-model="scope.row.cpu" v-else ></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column label="CPU" width="180">
+          <el-table-column prop="check2" label="内存警告是否发送">
             <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+              <el-checkbox v-model="scope.row.check2" 
+                        v-if="scope.row.seen" style="padding-left: 50px;"></el-checkbox>
+               <el-checkbox  v-model="scope.row.mem"  style="padding-left: 50px;" v-else></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column label="内存" width="180">
+          <el-table-column prop="check3" label="磁盘警告是否发送">
             <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+              <el-checkbox v-model="scope.row.check3" style="padding-left: 50px;"
+                        v-if="scope.row.seen"> </el-checkbox>
+             <el-checkbox  v-model="scope.row.disk" style="padding-left: 50px;" v-else></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column label="磁盘" width="180">
-            <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ scope.row.date }}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)"
-                >编辑</el-button
-              >
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
-                >删除</el-button
-              >
+          <el-table-column label="操作" prop="compile">
+            <template slot-scope="{row, $index}">
+              <el-button type="button" size="mini" @click="handlePass(row, $index)">{{row.compile}}</el-button>
+              <el-button type="button" size="mini" @click="deleteData(row, $index)">{{row.iDelete}}</el-button>
             </template>
           </el-table-column>
         </el-table>
+       <el-button
+                   style="margin-left: 650px;"
+                  @click="dialogFormVisible = true">新建</el-button>
+                  
+                  <el-dialog title="新建" :visible.sync="dialogFormVisible">
+  <el-form :model="form">
+    <el-form-item label="收件人邮箱" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="CPU警告是否发送" :label-width="formLabelWidth">
+     <el-checkbox style="padding-left: 50px;" v-model="form.xjcpu"  ></el-checkbox>
+    </el-form-item>
+    <el-form-item label="内存警告是否发送" :label-width="formLabelWidth">
+     <el-checkbox style="padding-left: 50px;" v-model="form.xjmem"  ></el-checkbox>
+    </el-form-item>
+    <el-form-item label="磁盘警告是否发送" :label-width="formLabelWidth">
+     <el-checkbox style="padding-left: 50px;" v-model="form.xjdisk"  ></el-checkbox>
+    </el-form-item>
+
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+  </div>
+</el-dialog>
     </div>
   </div>
 </template>
 
 <script>
+import {getgjInfo} from '../../api/index.js'
+import {postgjInfo} from '../../api/index.js'
+import { getyxInfo} from '../../api/index.js'
+
 export default {
   data() {
     return {
-      cpu:"",
-      ci:"",
-      nei:"",
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+      dialogFormVisible: false,
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
         },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
-        },
-      ],
+        formLabelWidth: '150px',
+      cpua:'',
+      mema:'',
+      diska:'',
+      isRow: '', 
+    adata:  
+        [{compile:'',cpu:false,disk:false,email:'',iDelete:'',mem:false,seen:false}]
     };
   },
+   async created(){
+     this.handleGetgjInfo()
+        const {data} =await getyxInfo();
+      this.adata=data.data
+      console.log(data.data);
+     },
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
+    xj(){
+      
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    async handleGetgjInfo() {
+      const { data } = await getgjInfo();
+     this.cpua = parseInt(data.data.cpu),
+      this.mema =parseInt(data.data.memory),
+       this.diska = parseInt(data.data.disk)
     },
+    async eedit(){
+      await postgjInfo({
+       cpu:this.cpua,
+        memory:this.mema,
+         disk:this.diska,
+      });
+        this.$notify({
+          title: "info",
+          message: "修改成功!",
+          type: "success",
+        });
+    },
+    handlePass(row) {
+      row.seen = !row.seen
+      if (row.seen) {
+        row.compile = '保存'
+        row.seen = true
+      } else {
+        row.compile = '编辑'
+        row.seen = false
+      }
+    },
+    deleteData(row) {
+      this.isRow = row.num
+      let allow = this.adata.filter(item => {
+        if(item.num !== this.isRow) {
+          return item
+        }
+      })
+      this.adata = allow
+    },
+    newa(){
+       
+    }
   },
 };
 </script>
 
 <style scoped>
 .a31 {
-   /* text-align: center; */
-  padding: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   border: 2px solid #ece9e9;
+   margin: 20px;
+   padding: 5px;
+  
+}
+.a32 {
+   border: 2px solid #ece9e9;
+   margin: 20px;
+   padding: 5px;
   
 }
 .el-input {
     width: 15vw;
 }
 .a3 {
-  text-align: center;
-  display: flex;
-   width: 100%;
-   height:100%;
-   /* position: fixed; */
-     color: aqua;
-   background:url("../../assets/c.png") no-repeat center;
-   background-size: 100% 100%;
-}
-.table-wrapper ::v-deep .el-table {
-  /* 表格字体颜色 */
+   background-color: #ffffff;
+    box-shadow: 2px 4px 20px 2px rgb(197 197 197);
+    margin: 20px;
+    padding: 10px;
   
-  /* 表格边框颜色 */
-  border: 0px solid #ffffff;
-  height: 80%;
+   /* position: fixed; */
 }
-
-.el-button+.el-button {
-    margin-left: 0px;
-}
-
-/* 删除表格下横线 */
-.table-wrapper ::v-deep .el-table::before {
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 0px;
-}
-/* 删除单元格底部横线 */
-.a32 ::v-deep .el-table td {
-  border-bottom: 2px solid #dfe6ec !important;
-}
-
-.a32 ::v-deep .el-table--fit {
-  padding: 0px;
-}
-.a32 ::v-deep .el-table,
-.el-table__expanded-cell {
-  background-color: transparent;
-}
-
-.a32 ::v-deep .el-table tr {
-  /* background-color: transparent !important; */
-  background-color: #262a2e;
-    color: aqua;
-}
-.a32 ::v-deep .el-table--enable-row-transition .el-table__body td,
-.el-table .cell {
-  background-color: transparent;
-}
+/*  */
 </style>

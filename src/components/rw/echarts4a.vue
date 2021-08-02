@@ -1,36 +1,25 @@
 <template>
 <div class="a4">
   <div class="a41">
-    <div class="a44">
 <el-form ref="form" :model="form">
   <el-form-item label="任务类型" >
     <br/>
-   <el-select v-model="form.rwlx" placeholder="请选择" style="width:150px" >
+   <el-select v-model="form.rwlx" placeholder="请选择" style="width:100%" >
       <el-option label="Shell脚本" value="Shell脚本"></el-option>
       <el-option label="备份网站" value="备份网站"></el-option>
     </el-select>
-    <p>*任务类型包括以下部分：Shell脚本，备份网站，同步时间</p>
+    <p>*任务类型包括以下部分：Shell脚本，备份网站</p>
   </el-form-item>
-  <el-form-item label="任务名称">
+  <el-form-item label="任务名称" style="width:400px">
      <el-input v-model="form.rwmc"></el-input>
   </el-form-item>
-  <el-form-item label="执行周期">
+  <el-form-item label="执行周期"  style="width:100%">
     <br/>
-      <!-- <div class="inputLine">
-    <el-select name="" v-model="countryName" @change="selectCountry">
-      <el-option :value="item" v-for="(item, index) in area" :key="index">
-        {{ item.country }}
-      </el-option>
-    </el-select>
-    <el-select name="" v-model="cityName">
-      <el-option :value="item" v-for="(item, index) in countryName.city" :key="index">
-        {{ item }}
-      </el-option>
-    </el-select>
-  </div> -->
-     <!-- <el-input v-model="form.zxzq"></el-input> -->
+
+
      <div class="block">
   <el-cascader
+  style="width:100%"
     v-model="value"
     :options="options"
     :props="{ expandTrigger: 'hover' }"
@@ -39,7 +28,7 @@
 
 
   </el-form-item>
-  <el-form-item label="脚本内容">
+  <el-form-item label="脚本内容"  style="width:400px">
      <el-input v-model="form.jbnr"></el-input>
   </el-form-item>
   
@@ -49,11 +38,60 @@
   </el-form-item>
 </el-form>
 </div>
+<div class="a42">
+  <el-table
+    :data="tabledata"
+    style="width: 100%">
+    <el-table-column
+      label="任务名称"
+      >
+      <template slot-scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.mn }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="状态"
+  >
+      <template slot-scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.zt }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="执行周期"
+      >
+      <template slot-scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.zq }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="保存数量"
+      >
+      <template slot-scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.sl }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="备份到"
+      >
+      <template slot-scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.bf }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 </div>
 </div>
 </template>
 
 <script>
+// import {cron} from 'vue-cron'
   export default {
     data() {
       return {
@@ -164,38 +202,35 @@
     },
       onSubmit() {
         console.log('submit!');
-      }
+      },
+      // js部分
+	onChangeCron(v) {
+       this.formData.triggerCron = v
+    },
+
     }
   }
 </script>
 
 <style scoped>
 .a4{
-   width: 100%;
-   height:100%;
-   position: fixed;
-   background:url("../../assets/c.png") no-repeat center;
-    
-}
-.a44{
-    /* padding-top: 100px; */
-   
-    margin-left: 50px;
-    width: 400px;
+
 }
 .a41{
-  width: 500px;
-  margin-left: 450px;
-  margin-top: 60px;
-  padding-top: 35px;
-  padding-bottom: 10px;
-  background-color: #262a2e;
-  color:darkturquoise;
-  border:8px solid green;
-  border-radius:10px;
-   /* -moz-box-shadow:0 0 20px yellow;
-     -webkit-box-shadow:0 0 20px yellow; */
-     /* box-shadow:0 0 20px green; */
-box-shadow: 4px 4px 4px 4px rgb(95, 107, 107);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   background-color: #ffffff;
+    box-shadow: 2px 4px 20px 2px rgb(197 197 197);
+    margin: 10px;
+    padding: 20px;
+    
+}
+.a42{
+   background-color: #ffffff;
+    box-shadow: 2px 4px 20px 2px rgb(197 197 197);
+    margin: 10px;
+    padding: 20px;
+
 }
 </style>

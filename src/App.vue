@@ -27,6 +27,7 @@ html,body{
 }
 a{
 text-decoration: none;
+color: white;
 }
 #app {
   /* font-family: Avenir, Helvetica, Arial, sans-serif;

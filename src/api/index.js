@@ -4,21 +4,21 @@ const fetch = api.http
 
 export function getUserInfo(params) {
     return fetch({
-        url: 'http://39.106.116.109:8082/api/sys/osInfo',
+        url: 'http://39.106.116.109:9099/api/sys/osInfo',
         method: 'get',
         params,
     })
 }
 export function postUser1Info(data) {
     return fetch({
-        url: 'http://39.106.116.109:8082/api/user/login',
+        url: 'http://39.106.116.109:9099/api/user/login',
         method: 'post',
         data,
     })
 }
 export function postUser2Info(data) {
     return fetch({
-        url: 'http://39.106.116.109:8082/api/user/register',
+        url: 'http://39.106.116.109:9099/api/user/register',
         method: 'post',
         data,
     })
@@ -60,4 +60,30 @@ export function getImgBase64(src) {
 
     })
 }
+
+export function getgjInfo(params) {
+    return fetch({
+        url: 'http://39.106.116.109:9099/api/conf/threshold',
+        method: 'get',
+        params,
+    })
+}
+export function postgjInfo(data) {
+    return fetch({
+        url: 'http://39.106.116.109:9099/api/conf/setThreshold',
+        method: 'post',
+        data,
+    })
+}
+
+
+export function getyxInfo(params) {
+    return fetch({
+        url: 'http://39.106.116.109:9099/api/conf/email',
+        method: 'get',
+        params,
+    })
+}
+
+
 

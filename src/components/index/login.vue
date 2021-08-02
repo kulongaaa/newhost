@@ -28,10 +28,12 @@
           </el-input>
         </el-form-item>
         <img :src="base" @click="refresh" />
+        <span style="font-size:14px;color:white;">看不清请点击图片刷新</span>
       </el-form>
       <div class="hello2">
+        <br/>
         <el-button type="primary" @click="login">登录</el-button>
-        <router-link to="/register">点我去注册</router-link>
+        <el-button type="primary"><router-link to="/register">注册</router-link></el-button>
       </div>
     </div>
   </div>
@@ -61,7 +63,7 @@ export default {
   },
   methods: {
     refresh() {
-      getImgBase64("http://39.106.116.109:8082/api/user/getPW").then((v) => {
+      getImgBase64("http://39.106.116.109:9099/api/user/getPW").then((v) => {
         this.base = v;
       });
     },
@@ -94,7 +96,7 @@ export default {
       } else {
         this.$message({
           showClose: true,
-          message: "账号或密码错误!",
+          message:data.msg,
           type: "error",
         });
       }
@@ -106,7 +108,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .hello {
-  background: url("../../assets/c.png") no-repeat center;
+  background: url("../../assets/22.jpg") no-repeat center;
   position: fixed;
   height: 100%;
   width: 100%;
@@ -120,7 +122,7 @@ export default {
   margin-left: 100px;
 }
 .hello3 {
-  color: darkgrey;
+  color: rgb(255, 255, 255);
   margin-left: 50px;
 }
 

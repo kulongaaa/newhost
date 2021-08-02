@@ -11,6 +11,10 @@ Vue.prototype.$axios = axios;
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 
+
+import VueCron from 'vue-cron'
+Vue.use(VueCron);//使用方式：<vueCron></vueCron>
+
 import store from './store/index'
 new Vue({
 	router,

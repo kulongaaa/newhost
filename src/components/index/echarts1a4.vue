@@ -29,7 +29,7 @@
                 if ("WebSocket" in window) {
                     console.log("浏览器支持 WebSocket!");
                     // 打开一个 webSocket
-                    let url ='39.106.116.109:8082/api/netflow'; 
+                    let url ='39.106.116.109:9099/api/netflow'; 
                     // const WebSocket=require('ws') 
                     let ws = new WebSocket(`ws://${url}`);
                     // 连接成功

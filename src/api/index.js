@@ -85,5 +85,20 @@ export function getyxInfo(params) {
     })
 }
 
+export function postxjInfo(data){
+    return fetch({
+        url: 'http://39.106.116.109:9099/api/conf/saveEmail',
+        method: 'post',
+        data,
+    })
+}
+
+export function getscInfo(data) {
+    return fetch({
+        url: 'http://39.106.116.109:9099/api/conf/delEmail',
+        method: 'post',
+        data,
+    })
+}
 
 

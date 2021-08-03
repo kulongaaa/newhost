@@ -82,7 +82,8 @@ export default {
       background-color: #262a2e;
     }
     .bb{
-      height: 55px;
+    height: 40px;
+    padding: 9px 20px;
     }
 
     .b-center {

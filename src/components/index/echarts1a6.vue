@@ -4,7 +4,15 @@
     <div>系统名称：{{b.aa1}}</div>
     <div>供应商：{{b.aa2}}</div>
     <div>版本：{{b.aa3}}</div>
-    <div>处理器型号：{{b.aa4}}</div>
+    <table>
+        <tr>
+            <td style="width:60px">
+    处理器:</td>
+    <td>
+        <div>{{b.aa4}}</div>
+        </td>
+        </tr>
+        </table>
     <div>总内存：{{b.aa5}}</div>
     <div>主机名：{{b.aa6}}</div>
     </div>
@@ -48,6 +56,9 @@ async created(){
     font-size: 16px;
     padding: 100px;
     background-color: #fffbfb;
+}
+table {
+    border-spacing: 0px;
 }
 
 </style>

@@ -237,7 +237,12 @@ mounted(){
   left: 490px;
   top: 260px;
   font-size: 16px;
-  background-color: rgba(255, 253, 253, 0.527);
+   padding: 12px;
+    border-radius: 6px;
+    backdrop-filter: blur(40px);
+    background-color: rgba(246,246,246,.4);
+    color:#2b528e;
+
 }
 
 </style>

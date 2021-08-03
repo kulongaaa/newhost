@@ -4,17 +4,30 @@
 <template>
   <div>
     <div id="shuiwen1" style="width: 300px;height:300px;padding:10px;" @mouseenter="enter" @mouseleave="leave"></div>
-    <div class="edittool"  v-show="seen">CPU物理核数:{{cpu}}</div>
+    <div class="edittool"  v-show="seen">
+      <div>CPU进程占用:{{cpu}}</div>
+      <div>CPU进程名称:{{name}}</div>
+      <div>CPU进程占用内存:{{mem}}</div>
+      <div>CPU进程状态:{{status}}</div>
+      <div>触发该进程的操作用户:{{user}}</div>
+      <div>CPU进程ID:{{pid}}</div>
+
+    </div>
   </div>
 </template>
 <script>
   import "echarts-liquidfill";
-  import { getUserInfo } from '../../api/index.js'
+  import { getUsercInfo } from '../../api/index.js'
   export default {
     data() {
       return {
         edata1:'',
-        cpu:'1',
+        cpu:'',
+        name:'',
+        mem:'',
+        status:'',
+        user:'',
+        pid:'',
         seen:false,
         charts: '',
       }
@@ -36,9 +49,13 @@
   //  } 
   //   },
     async created(){
-     const { data } =await getUserInfo();
-     this.cpu = data.data.cpu.cpuNum,
-     console.log(data)
+     const { data } =await getUsercInfo();
+     this.cpu = data.data[0].cpu,
+     this.name = data.data[0].name,
+     this.mem = data.data[0].mem,
+     this.status = data.data[0].status,
+     this.user=data.data[0].user,
+     this.pid=data.data[0].pid
      },
       mounted(){
         this.init('shuiwen1')

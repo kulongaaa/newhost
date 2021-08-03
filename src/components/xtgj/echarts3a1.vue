@@ -47,13 +47,13 @@
     <div class="a32">
       <h3>预警推送邮箱</h3>
       <el-table :data="adata">
-        <el-table-column prop="yx" label="收件人邮箱">
+        <el-table-column  label="收件人邮箱">
           <template slot-scope="scope">
             <el-input v-model="scope.row.email" v-if="scope.row.seen"> </el-input>
             <span style="margin-left: 10px" v-else>{{ scope.row.email }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="check1" label="CPU警告是否发送">
+        <el-table-column label="CPU警告是否发送">
           <template slot-scope="scope">
             <el-checkbox
               v-model="scope.row.cpu"
@@ -68,7 +68,7 @@
             ></el-checkbox>
           </template>
         </el-table-column>
-        <el-table-column prop="check2" label="内存警告是否发送">
+        <el-table-column  label="内存警告是否发送">
           <template slot-scope="scope">
             <el-checkbox
               v-model="scope.row.mem"
@@ -82,7 +82,7 @@
             ></el-checkbox>
           </template>
         </el-table-column>
-        <el-table-column prop="check" label="磁盘警告是否发送">
+        <el-table-column  label="磁盘警告是否发送">
           <template slot-scope="scope">
             <el-checkbox
               v-model="scope.row.disk"
@@ -97,7 +97,7 @@
             ></el-checkbox>
           </template>
         </el-table-column>
-        <el-table-column label="操作" prop="compile">
+        <el-table-column label="操作" >
           <template slot-scope="{ row, $index }">
             <el-button
               type="button"
@@ -118,7 +118,7 @@
       <el-dialog title="新建" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="收件人邮箱" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-input v-model="form.xjname" ></el-input>
           </el-form-item>
           <el-form-item label="CPU警告是否发送" :label-width="formLabelWidth">
             <el-checkbox
@@ -167,10 +167,10 @@ export default {
     return {
       dialogFormVisible: false,
         form: {
-          name: '',
-         xjcpu:'',
-         xjmem:'',
-         xjdisk:''
+          xjname: '',
+         xjcpu:false,
+         xjmem:false,
+         xjdisk:false
         },
         formLabelWidth: '150px',
       cpua:'',
@@ -192,12 +192,20 @@ export default {
       await postxjInfo(
         {
         email:{
-          email:this.form.name,
+          email:this.form.xjname,
            cpu:this.form.xjcpu,
            mem:this.form.xjmem,
            disk:this.form.xjdisk
         }
-      });
+      }).then(async ()=>{
+        // this.handleGetgjInfo()
+        const {data} = await getyxInfo();
+        this.adata = data.data})
+        this.$notify({
+          title: "info",
+          message: "新建成功!",
+          type: "success",
+        });
     },
     async handleGetgjInfo() {
       const { data } = await getgjInfo();
@@ -226,7 +234,7 @@ export default {
         row.compile = '编辑'
         row.seen = false
         await postxjInfo(
-        {email: row});
+        {email: row});  
       }
 
     },
@@ -236,6 +244,11 @@ export default {
         const {data} = await getyxInfo();
         this.adata = data.data
       })
+      this.$notify({
+          title: "info",
+          message: "删除成功!",
+          type: "success",
+        });
       
      
     },

@@ -5,10 +5,10 @@
   <el-form-item label="任务类型" >
     <br/>
    <el-select v-model="form.rwlx" placeholder="请选择" style="width:100%" >
-      <el-option label="Shell脚本" value="Shell脚本"></el-option>
-      <el-option label="备份网站" value="备份网站"></el-option>
+      <el-option label="Shell" name="Shell" value=1></el-option>
+      <el-option label="Python" name="Python" value=2></el-option>
     </el-select>
-    <p>*任务类型包括以下部分：Shell脚本，备份网站</p>
+    <p>*任务类型包括以下部分：Shell，Python</p>
   </el-form-item>
   <el-form-item label="任务名称" style="width:400px">
      <el-input v-model="form.rwmc"></el-input>
@@ -20,7 +20,7 @@
      <div class="block">
   <el-cascader
   style="width:100%"
-    v-model="value"
+    v-model="form.zxzq"
     :options="options"
     :props="{ expandTrigger: 'hover' }"
     @change="handleChange"></el-cascader>
@@ -40,41 +40,27 @@
 </div>
 <div class="a42">
   <el-table
-    :data="tabledata"
+    :data="rdata"
     style="width: 100%">
     <el-table-column
       label="任务名称"
       >
       <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.mn }}</span>
+        <span style="margin-left: 10px">{{ scope.row.name }}</span>
       </template>
     </el-table-column>
     <el-table-column
       label="状态"
   >
       <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.zt }}</span>
+        <span style="margin-left: 10px">{{ scope.row.status==1?"运行中":"未启动" }}</span>
       </template>
     </el-table-column>
     <el-table-column
       label="执行周期"
       >
       <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.zq }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="保存数量"
-      >
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.sl }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="备份到"
-      >
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.bf }}</span>
+        <span style="margin-left: 10px">{{ scope.row.cronExpress }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -82,7 +68,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          @click="handleDelete(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -92,9 +78,24 @@
 
 <script>
 // import {cron} from 'vue-cron'
+import {getrwInfo} from '../../api/index.js'
+import {postrwInfo} from '../../api/index.js'
+import {delrwInfo} from '../../api/index.js'
   export default {
     data() {
       return {
+        rdata:[{
+          name:'',
+          status:'',
+          cronExpress:''
+
+        }],
+        form:{
+          rwlx:'',
+          rwmc:'',
+          zxzq:'',
+          jbnr:''
+        },
         value: [],
         options: [{
           value: '每小时',
@@ -159,54 +160,48 @@
             ]
         }
       ],
-      //      list: [
-      //   {
-      //     text: "这是第1条数据",
-      //   },
-      // ],
-
-      // countryName: {},
-      // cityName: "请选择",
-      // area: [
-      //   {
-      //     country: "每小时",
-      //     city: ["15分钟","30分钟","45分钟"],
-      //   },
-      //   {
-      //     country: "每天",
-      //     city: ["0时", "6时", "12时", "18时"],
-      //   },
-      //   {
-      //     country: "每周",
-      //     city: ["星期一","星期二","星期三","星期四","星期五","星期六","星期日"],
-      //   },
-      //   {
-      //     country: "每月",
-      //     city: ["1日","2日","3日","4日","5日","6日","7日","8日","9日","10日","11日","12日","13日","14日","15日","16日","17日","18日","19日","20日","21日","22日","23日","24日","25日","26日","27日","28日","29日","30日"],
-      //   },
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
       }
     },
+     async created(){
+        const {data} =await getrwInfo();
+        this.rdata=data.data.list,
+      console.log(this.rdata);
+     },
     methods: {
-         selectCountry() {
-      this.cityName = this.countryName.city[0];
+        
+      async onSubmit() {
+      await postrwInfo(
+        {
+           task:{
+          typeId:this.form.rwlx,
+           name:this.form.rwmc,
+           cronExpress:this.form.zxzq,
+           content:this.form.jbnr
+        }
+      }).then(async ()=>{
+         const {data} =await getrwInfo();
+        this.rdata=data.data.list})
+        this.$notify({
+          title: "info",
+          message: "添加成功!",
+          type: "success",
+        });
     },
-      onSubmit() {
-        console.log('submit!');
-      },
-      // js部分
-	onChangeCron(v) {
-       this.formData.triggerCron = v
-    },
+     handleDelete(id) {
+      delrwInfo({id}).then(async ()=>{
+        const {data} = await getrwInfo();
+         this.rdata=data.data.list
+      })
+      this.$notify({
+          title: "info",
+          message: "删除成功!",
+          type: "success",
+        });
+      
+     
+   },
+       
+
 
     }
   }

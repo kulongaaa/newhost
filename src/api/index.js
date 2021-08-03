@@ -2,6 +2,14 @@ import api from '../http'
 
 const fetch = api.http
 
+export function getUsercInfo(params) {
+    return fetch({
+        url: 'http://39.106.116.109:9099//api/sys/processorInfo',
+        method: 'get',
+        params,
+    })
+}
+
 export function getUserInfo(params) {
     return fetch({
         url: 'http://39.106.116.109:9099/api/sys/osInfo',
@@ -101,4 +109,25 @@ export function getscInfo(data) {
     })
 }
 
+export function postrwInfo(data) {
+    return fetch({
+        url: 'http://39.106.116.109:9099/api/task/saveTask',
+        method: 'post',
+        data,
+    })
+}
+export function delrwInfo(data) {
+    return fetch({
+        url: 'http://39.106.116.109:9099/api/task/delTask',
+        method: 'post',
+        data,
+    })
+}
+export function getrwInfo(params) {
+    return fetch({
+        url: 'http://39.106.116.109:9099/api/task/listTask',
+        method: 'get',
+        params,
+    })
+}
 

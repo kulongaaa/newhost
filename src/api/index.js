@@ -32,24 +32,7 @@ export function postUser2Info(data) {
     })
 }
 
-export function get() {
-    return fetch({
-        url: '/api/networkCard',
-        method: 'get',
-    })
-}
-export function getClock() {
-    return fetch({
-        url: '/api/sys/osInfo',
-        method: 'get',
-    })
-}
-export function getpre() {
-    return fetch({
-        url: '/api/sys/osInfo',
-        method: 'get',
-    })
-}
+
 
 export function getImgBase64(src) {
     return new Promise((resolve) => {

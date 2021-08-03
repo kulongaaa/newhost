@@ -36,6 +36,7 @@ color: white;
   text-align: center; */
    background:#ece9e9;
   color: #000000;
+  height:100%
 }
 </style>
 

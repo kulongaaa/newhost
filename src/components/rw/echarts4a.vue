@@ -65,10 +65,23 @@
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-button
+
+<el-popover
+  placement="top"
+  width="160"
+  v-model="visible">
+  <p>这是一段内容这是一段内容确定删除吗？</p>
+  <div style="text-align: right; margin: 0">
+    <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+    <el-button type="primary" size="mini" @click="visible = false,handleDelete(scope.row.id)">确定</el-button>
+  </div>
+  <el-button size="mini"
+          type="danger" slot="reference">删除</el-button>
+</el-popover>
+        <!-- <el-button
           size="mini"
           type="danger"
-          @click="handleDelete(scope.row.id)">删除</el-button>
+          @click="handleDelete(scope.row.id)">删除</el-button> -->
       </template>
     </el-table-column>
   </el-table>

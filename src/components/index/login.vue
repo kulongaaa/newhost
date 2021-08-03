@@ -32,7 +32,7 @@
       </el-form>
       <div class="hello2">
         <br/>
-        <el-button type="primary" @click="login">登录</el-button>
+        <el-button type="primary" @click="throttledMethod()">登录</el-button>
         <el-button type="primary"><router-link to="/register">注册</router-link></el-button>
       </div>
     </div>
@@ -42,6 +42,7 @@
 <script>
 import { postUser1Info } from "../../api/index.js";
 import { getImgBase64 } from "../../api/index.js";
+import _ from 'lodash'
 
 export default {
   name: "hello",
@@ -67,8 +68,9 @@ export default {
         this.base = v;
       });
     },
-    async login() {
-      const { data } = await postUser1Info({
+    throttledMethod:_.throttle(async function(){
+      // async login(){
+      const { data } =await postUser1Info({
         user: {
           uName: this.uName,
           uPasswd: this.uPasswd,
@@ -100,7 +102,8 @@ export default {
           type: "error",
         });
       }
-    },
+      
+    },2000),
   },
 };
 </script>

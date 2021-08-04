@@ -71,7 +71,7 @@
 <script>
     // import {get} from "../../../api";
     // import {getPack} from "../../../api/network";
-    import axios from 'axios'
+    // import axios from 'axios'
     import {getCard} from "../../../api/network";
     import {getStart} from "../../../api/network";
 
@@ -115,16 +115,19 @@
             },
             pack(){
                 this.outerVisible = false
-                axios.get('http://39.106.116.109:9099/api/package/startSniff', {
-                    params: {
-                        ifn:this.sizeForm.InterName,
-                        f:this.choose.region,
-                        count:this.sizeForm.count,
-                        to:this.sizeForm.to
-                    }
-                }).then(res=>{
-                   localStorage.setItem('start',res.toString());
-                })
+                // axios.get('http://39.106.116.109:9099/api/package/startSniff', {
+                //     params: {
+                //         ifn:this.sizeForm.InterName,
+                //         f:this.choose.region,
+                //         count:this.sizeForm.count,
+                //         to:this.sizeForm.to
+                //     }
+                // }).then(res=>{
+                //    localStorage.setItem('start',res.toString());
+                // })
+                this.$alert('<strong>开始抓包</strong>', '提示', {
+                    dangerouslyUseHTMLString: true
+                });
                 // let data = {
                 //     city:val
                 // }
@@ -152,7 +155,7 @@
             // console.log(data.data[this.n])
             // this.sizeForm = data.data[0];
             //抓包API
-            this.pack();
+            // this.pack();
             const res = await getStart();
             console.log(res);
             // const res = await getPack();

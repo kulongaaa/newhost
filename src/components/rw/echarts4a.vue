@@ -1,16 +1,16 @@
 <template>
 <div class="a4">
   <div class="a41">
-<el-form ref="form" :model="form">
-  <el-form-item label="任务类型" >
+<el-form ref="form" :model="form" :rules="rules" class="demo-ruleForm">
+  <el-form-item label="任务类型" prop="name" >
     <br/>
-   <el-select v-model="form.rwlx" placeholder="请选择" style="width:100%" >
+   <el-select v-model="form.rwlx" placeholder="请选择" style="width:100%"  >
       <el-option label="Shell" name="Shell" value=1></el-option>
       <el-option label="Python" name="Python" value=2></el-option>
     </el-select>
     <p>*任务类型包括以下部分：Shell，Python</p>
   </el-form-item>
-  <el-form-item label="任务名称" style="width:400px">
+  <el-form-item label="任务名称" style="width:400px" prop="rwmc">
      <el-input v-model="form.rwmc"></el-input>
   </el-form-item>
   <el-form-item label="执行周期"  style="width:100%">
@@ -28,8 +28,9 @@
 
 
   </el-form-item>
-  <el-form-item label="脚本内容"  style="width:400px">
-     <el-input v-model="form.jbnr"></el-input>
+  <el-form-item label="脚本内容"  style="width:400px" prop="jbnr">
+     <el-input type="textarea"
+  :rows="3" v-model="form.jbnr"></el-input>
   </el-form-item>
   
   <el-form-item>
@@ -97,6 +98,14 @@ import {delrwInfo} from '../../api/index.js'
   export default {
     data() {
       return {
+         rules: {
+         jbnr: [
+            { required: true, message: '请输入脚本内容', trigger: 'blur' }
+          ],
+          rwmc: [
+            { required: true, message: '请输入任务名称', trigger: 'blur' }
+          ],
+          },
         rdata:[{
           name:'',
           status:'',

@@ -15,10 +15,11 @@ export default {
       // console.log('拦截器执行')
       // console.log('请求的路径是',config.url)
 			// 当用户登录之后会在sessionStorage中存token的值，token就会有值
-			let token = sessionStorage.token;
+			let token = JSON.parse(localStorage.getItem('kulong-m-user'))
+      console.log(token);
 			if(token){
 				// 通过jwt方式验证token的参数携带规则如下
-				config.headers['Authorization'] = 'Bearer '+token
+				config.headers['token'] =token
 			}
       // 在发送请求之前做些什么
       return config;

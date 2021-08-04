@@ -23,17 +23,17 @@
           >
           </el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="请输入验证码" v-model="utryCode" name="code">
+        <el-form-item class="hello41">
+          <el-input placeholder="请输入验证码" v-model="utryCode" name="code" style="width:200px">
           </el-input>
+        <img :src="base" @click="refresh" class="hello4" />
         </el-form-item>
-        <img :src="base" @click="refresh" />
-        <span style="font-size:14px;color:white;">看不清请点击图片刷新</span>
+        <!-- <span style="font-size:14px;color:white;">看不清请点击图片刷新</span> -->
       </el-form>
       <div class="hello2">
         <br/>
         <el-button type="primary" @click="throttledMethod()">登录</el-button>
-        <el-button type="primary"><router-link to="/register">注册</router-link></el-button>
+        <el-button type="primary"><router-link to="/register">去注册</router-link></el-button>
       </div>
     </div>
   </div>
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     refresh() {
-      getImgBase64("http://39.106.116.109:9099/api/user/getPW").then((v) => {
+      getImgBase64("http://39.106.116.109:9095/api/user/getPW").then((v) => {
         this.base = v;
       });
     },
@@ -116,10 +116,12 @@ export default {
   height: 100%;
   width: 100%;
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .hello1 {
-  margin-top: 250px;
-  margin-left: 600px;
+  width: 350px;
 }
 .hello2 {
   margin-left: 100px;
@@ -128,8 +130,17 @@ export default {
   color: rgb(255, 255, 255);
   margin-left: 50px;
 }
+.hello4{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 40px;
+}
+.hello41{
+  position: relative;
 
+}
 .el-input {
-  width: 350px;
+  width: 100%;
 }
 </style>

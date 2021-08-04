@@ -5,7 +5,7 @@ const fetch = api.http
 
 export function getCard () {
     return fetch({
-        url: 'http://39.106.116.109:9099/api/sys/networkCard',
+        url: 'http://39.106.116.109:9095/api/sys/networkCard',
         method: 'get',
     })
 }
@@ -23,26 +23,26 @@ export function getCard () {
 // }
 export function getPre() {
     return fetch({
-        url:'http://39.106.116.109:9099/api/sys/osInfo',
+        url:'http://39.106.116.109:9095/api/sys/osInfo',
         method:'get',
     })
 }
 export function getTxt() {
     return fetch({
-        url:'http://39.106.116.109:9099/file/queryAll',
+        url:'http://39.106.116.109:9095/file/queryAll',
         method:'get',
     })
 }
 export function getName() {
     return fetch({
-        url:'http://39.106.116.109:9099/api/package/getPcaplist',
+        url:'http://39.106.116.109:9095/api/package/getPcaplist',
         method:'get',
     })
 }
 
 export function getStart() {
     return fetch({
-        url:'http://39.106.116.109:9099/api/package/startSniff',
+        url:'http://39.106.116.109:9095/api/package/startSniff',
         method:'get',
     })
 }

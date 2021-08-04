@@ -21,6 +21,7 @@
   export default {
     data() {
       return {
+        ws:null,
         edata1:'',
         cpu:'',
         name:'',
@@ -61,6 +62,9 @@
         this.init('shuiwen1')
          this.getTheWeather();
       },
+      beforeDestroy(){
+        this.ws.onclose()
+      },
     methods: {
     getTheWeather() {
                     this.connectWebSocket();
@@ -70,28 +74,28 @@
                 if ("WebSocket" in window) {
                     console.log("浏览器支持 WebSocket!");
                     // 打开一个 webSocket
-                    let url ='39.106.116.109:9099/api/sysInfo'; 
+                    let url ='39.106.116.109:9095/api/sysInfo'; 
                     // const WebSocket=require('ws') 
-                    let ws = new WebSocket(`ws://${url}`);
+                    this.ws = new WebSocket(`ws://${url}`);
                     // 连接成功
-                    ws.onopen = function () {
+                    that.ws.onopen = function () {
                         // Web Socket 已连接上，使用 send() 方法发送数据
-                        ws.send("这是发送的测试数据");
+                        that.ws.send("这是发送的测试数据");
                         console.log('1连接成功');
                     };
                     // 接收数据处理
-                    ws.onmessage = function (evt) {
+                    that.ws.onmessage = function (evt) {
                         const msg = JSON.parse(evt.data);
                         that.edata1=msg.data.cpu.usage;
                         that.init()
                         
                     };
                     // 连接报错
-                    ws.onerror = function () {
+                    that.ws.onerror = function () {
                         console.log('连接报错...');
                     }
                     // 连接关闭
-                    ws.onclose = function () {
+                    that.ws.onclose = function () {
                         // 关闭 websocket
                         console.log("连接已关闭...");
                     }

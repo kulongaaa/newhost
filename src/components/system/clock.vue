@@ -10,7 +10,7 @@
                 </span>
 <!--                <button class="btn1">重启服务</button>-->
             </div>
-            <div>系统同步服务IP<input class="txt" type="text"/></div>
+            <div>系统同步服务IP<input  v-model='ip' class="txt" type="text"/></div>
             <div>
 <!--                <span>自动同步系统时间</span>-->
                <div class="on">
@@ -66,7 +66,7 @@
                 date0:new Date(),
                 date1:new Date(),
                 value: '0',
-                IP:'',
+                ip:'',
                 isSuccess:'已成功保存!!!',
                 a:'0',
                 chartInstance: null,
@@ -75,8 +75,8 @@
             }
         },
         async created() {
-            this.open1();
-            this.open2();
+            // this.open1();
+            // this.open2();
             const {data} = await getClock();
             this.IP = data.data.defaultIpv4;
             console.log( data.data.defaultIpv4)
@@ -125,6 +125,13 @@
                     message: '已同步！！！',
                     type: 'success'
                 });
+                axios.post('http://39.106.116.109:9095/api/conf/setAutoTime',{
+                    params:{
+                        ip:this.ip
+                    }
+                }).then(res =>{
+                    console.log(res);
+                })
             },
             open2() {
                 this.$notify({
@@ -132,20 +139,22 @@
                     message: '连通测试成功！！！',
                     type: 'success'
                 });
-                axios.get('http://39.106.116.109:9099/api/conf/testPing')
+                axios.get('http://39.106.116.109:9095/api/conf/testPing',{
+                    
+                })
             },
         }
     }
 </script>
 
 <style scoped>
+    body{
+
+    }
     .box{
         border: 1px solid rgba(0,0,0,.2);
         border-radius: 10px;
-        width: 90%;
-        height: 60%;
-        margin-left: 90px;
-        margin-top: 50px;
+       
         /*position: fixed;*/
         /*margin-top: -20px;*/
         font-size: 16px;
@@ -153,7 +162,8 @@
         color: black;
         box-shadow: 2px 4px 20px 2px rgb(197 197 197);
         padding: 20px;
-        background-color: white;
+        /*background-color: white;*/
+        background-color: #ece9e9;
     }
     .items>div{
         margin: 35px;

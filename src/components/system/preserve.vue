@@ -5,35 +5,35 @@
 <!--            <h4>设备操作</h4>-->
             <div class="big">
                 <div class="picture1">
-                    <img src="../../assets/重启.png">
+                    <img src="../../assets/restart.png">
                 </div>
                 <div class="picture2">
-                    <img src="../../assets/关机.png">
+                    <img src="../../assets/off.png">
                 </div>
                 <div class="picture3">
-                    <img src="../../assets/重启.png">
+                    <img src="../../assets/restart.png">
                 </div>
                 <div class="picture4">
-                    <img src="../../assets/网卡状态（开）.png">
+                    <img src="../../assets/status.png">
                 </div>
                 <div class="a">
                     <h4 >重启设备</h4>
                     <div class="page">重启设备，页面会在一段时间内消失</div>
-                    <div><button>重启</button></div>
+                    <div><button @click="restart1">重启</button></div>
                 </div>
                 <div class="b">
-                    <h4>关机</h4>
-                   <div class="page">关机设备,页面在几分钟后不可访问,电源关闭后再拔除电源！</div>
-                    <div><button>关机</button></div>
+                    <h4 class="offA">关机</h4>
+                   <div class="pageA">关机设备,页面会消失</div>
+                    <div><button class="off">关机</button></div>
                 </div>
                 <div class="c">
                     <h4>重启服务</h4>
                   <div class="page">重启服务，页面会在一段时间内消失</div>
-                    <div><button>重启</button></div>
+                    <div><button @click="restart2">重启</button></div>
                 </div>
                 <div class="d">
                     <h4 class="page">SSH Service</h4>
-                   <div>开启和关闭本机的SSH服务</div>
+                   <div class="pageD">开启和关闭本机的SSH服务</div>
                     <el-switch
                             active-text="开"
                             inactive-text="关"
@@ -68,7 +68,9 @@
 
 <script>
     // import {getpre} from "../../api";
-    import axios from 'axios'
+    //  import { saveAs } from 'file-saver'
+
+    // import axios from 'axios'
     import {getPre} from "../../api/network";
     export default {
         name: "preserve",
@@ -85,9 +87,39 @@
                     message: '日志下载成功！！！',
                     type: 'success'
                 });
-                axios.get('http://39.106.116.109:9099/file/download').then(res=>{
-                    console.log(res);
-                })
+                window.open('http://39.106.116.109:9095/api/sys/downLoadLog')
+                // axios({
+                //     url: 'http://39.106.116.109:9099/api/sys/downLoadLog',
+                //     method: 'get',s
+                //     headers: {
+                //         responseType: 'blob'
+                //     }
+                // }).then(res=>{
+                //     console.log(res.headers)
+                //     saveAs(new Blob([res.data]), 'logInfo.xls')
+                // }
+                //
+                // )
+                // axios.get('http://39.106.116.109:9099/api/sys/downLoadLog',  {responseType: 'blob'}).then(res=>{
+                //    // saveAs(new Blob[res.data], 'txt.xls')
+                //
+                // })
+            },
+            restart1(){
+                // axios.get('http://39.106.116.109:9095/api/conf/reboot')
+                this.$notify({
+                    title: '成功',
+                    message: '重启成功！',
+                    type: 'success'
+                });
+            },
+            restart2(){
+                // axios.get('http://39.106.116.109:9095/api/conf/restart')
+                this.$notify({
+                    title: '成功',
+                    message: '重启成功！',
+                    type: 'success'
+                });
             }
             },
             async created() {
@@ -139,6 +171,7 @@
         margin:50px;
         width: 100px;
         height: 45px;
+        margin-top: 65px;
     }
     .btn{
         margin:0;
@@ -190,8 +223,9 @@
     .right{
         margin-left: 50px;
     }
-    h4{
+    .b>h4{
         /*text-align: center;*/
+        /*margin-left: 130px;*/
     }
     .footer{
         display: flex;
@@ -228,5 +262,24 @@
     img{
         width: 50px;
         height: 50px;
+    }
+    .off{
+        position: fixed;
+        margin-left: 92px;
+        margin-top: 128px;
+    }
+    .offA{
+        position: fixed;
+        margin-left: 128px;
+    }
+    .pageA{
+        position:fixed;
+        margin-left: 90px;
+        margin-top: 48px;
+    }
+    .pageD{
+        position: fixed;
+        margin-top: -15px;
+        margin-left: 72px;
     }
 </style>

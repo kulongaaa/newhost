@@ -1,20 +1,32 @@
 <template>
 <div class="aaa1">
     <div class="aa1">
-    <div>系统名称：{{b.aa1}}</div>
-    <div>供应商：{{b.aa2}}</div>
-    <div>版本：{{b.aa3}}</div>
-    <table>
-        <tr>
-            <td style="width:60px">
-    处理器:</td>
-    <td>
-        <div>{{b.aa4}}</div>
-        </td>
-        </tr>
+        <table>
+            <tr>
+                <td width=80px>系统名称：</td>
+                <td>{{b.aa1}}</td>
+            </tr>
+            <tr>
+                <td>供应商：</td>
+                <td>{{b.aa2}}</td>
+            </tr>
+            <tr>
+                <td>版本：</td>
+                <td>{{b.aa3}}</td>
+            </tr>
+            <tr>
+                <td>处理器:</td>
+                <td>{{b.aa4}}</td>
+            </tr>
+            <tr>
+                <td>总内存：</td>
+                <td>{{b.aa5}}</td>
+            </tr>
+            <tr>
+                <td>主机名：</td>
+                <td>{{b.aa6}}</td>
+            </tr>
         </table>
-    <div>总内存：{{b.aa5}}</div>
-    <div>主机名：{{b.aa6}}</div>
     </div>
 </div>
 </template>

@@ -14,7 +14,7 @@
         </el-form-item>
         <el-form-item>
           <el-input
-            placeholder="请输入密码"
+            placeholder="密码（由大小写字母，数字以及特殊字符组成）"
             v-model="password"
             show-password
             name="password">
@@ -37,7 +37,7 @@
         </el-form-item>
       </el-form>
       <div class="hello2"> 
-          <el-button type="primary"><router-link to="/login">登录</router-link></el-button>
+          <el-button type="primary"><router-link to="/login">返回登录</router-link></el-button>
         <el-button type="primary" @click="select">注册</el-button>
       </div>
     </div>
@@ -92,11 +92,13 @@ import { postUser2Info } from '../../api/index.js'
     height: 100%;
     width: 100%;
     background-size: cover;
+    display: flex;
+  justify-content: center;
+  align-items: center;
 
   }
 .hello1{
-  margin-top: 250px;
-  margin-left: 600px;
+
 }
 .hello2{
    margin-left: 100px;

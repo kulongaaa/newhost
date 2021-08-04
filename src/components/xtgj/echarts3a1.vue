@@ -183,29 +183,55 @@ export default {
   },
    async created(){
      this.handleGetgjInfo()
-        const {data} =await getyxInfo();
-      this.adata=data.data
-      console.log(data.data);
+     this.init()
      },
   methods: {
+    async init() {
+      const {data} =await getyxInfo();
+      this.adata=data.data
+      console.log(data.data);
+    },
     async xj(){
-      await postxjInfo(
-        {
+      try {
+        await postxjInfo({
         email:{
           email:this.form.xjname,
            cpu:this.form.xjcpu,
            mem:this.form.xjmem,
            disk:this.form.xjdisk
-        }
-      }).then(async ()=>{
-        // this.handleGetgjInfo()
-        const {data} = await getyxInfo();
-        this.adata = data.data})
+          }
+        })
+        this.init()
         this.$notify({
           title: "info",
           message: "新建成功!",
           type: "success",
         });
+      } catch (error) {
+        this.init()
+        this.$notify({
+          title: "info",
+          message: "新建失败!",
+          type: "error",
+        });
+      }
+      // await postxjInfo(
+      //   {
+      //   email:{
+      //     email:this.form.xjname,
+      //      cpu:this.form.xjcpu,
+      //      mem:this.form.xjmem,
+      //      disk:this.form.xjdisk
+      //   }
+      // }).then(async ()=>{
+      //   // this.handleGetgjInfo()
+      //   const {data} = await getyxInfo();
+      //   this.adata = data.data})
+      //   this.$notify({
+      //     title: "info",
+      //     message: "新建成功!",
+      //     type: "success",
+      //   });
     },
     async handleGetgjInfo() {
       const { data } = await getgjInfo();

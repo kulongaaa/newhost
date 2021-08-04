@@ -8,68 +8,24 @@
                     <h4 >磁盘清理管理</h4>
                     <p>磁盘清理</p>
                     <div class="updown">
-                        <div>上限:<input type="text" v-model="max"/>%</div>
-                        <div>下限:<input type="text" v-model="min"/>%</div>
+                        <div>上限:<input type="text" v-model="max"  placeholder="请输入0到100的数字"/>%</div>
+                        <div>下限:<input type="text" v-model="min" placeholder="请输入0到100的数字"/>%</div>
                     </div>
-                    <p class="pbtn">自动清理</p>
-                    <el-switch
-                            v-model="valueSwitch"
-                            class="btn">
-                    </el-switch>
+                    <button class="btn" @click="clear">自动清理</button>
+<!--                    <p class="pbtn">自动清理</p>-->
+<!--                    <el-switch-->
+<!--                            v-model="valueSwitch"-->
+<!--                            class="btn">-->
+<!--                    </el-switch>-->
                 </div>
             </div>
             <div class="right">
                 <h4 id="clear">日志清除信息</h4>
                 <span class="a">
                     <button @click="del">清空</button>
-                    <button><i class="el-icon-refresh-left"></i></button>
+                    <button @click="fresh"><i class="el-icon-refresh-left"></i></button>
                 </span>
-                <!--                <el-table @click.native="add"-->
-                <!--                          style="width: 1483px;color: black"-->
-                <!--                          :data="tableData"-->
-                <!--                          stripe>-->
-                <!--                    <el-table-column-->
-                <!--                            prop="name"-->
-                <!--                            label="名称">-->
-                <!--                    </el-table-column>-->
-                <!--                    <el-table-column-->
-                <!--                            prop="state"-->
-                <!--                            label="状态"-->
-                <!--                    >-->
-                <!--                    </el-table-column>-->
-                <!--                    <el-table-column-->
-                <!--                            prop="describe"-->
-                <!--                            label="状态描述"-->
-                <!--                    >-->
-                <!--                    </el-table-column>-->
-                <!--                    <el-table-column-->
-                <!--                            prop="rate"-->
-                <!--                            label="速率"-->
-                <!--                    >-->
-                <!--                    </el-table-column>-->
-                <!--                    <el-table-column-->
-                <!--                            prop="type"-->
-                <!--                            label="传输模式"-->
-                <!--                    >-->
-                <!--                    </el-table-column>-->
-                <!--                    <el-table-column-->
-                <!--                            prop="IP"-->
-                <!--                            label="IPv4"-->
-                <!--                    >-->
-                <!--                    </el-table-column>-->
-                <!--                    <el-table-column-->
-                <!--                            prop="sonNet"-->
-                <!--                            label="子网"-->
-                <!--                    >-->
-                <!--                    </el-table-column>-->
-                <!--                    &lt;!&ndash;                <el-table-column&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                        prop="change"&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                        label="修改"&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                >&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                </el-table-column>&ndash;&gt;-->
 
-                <!--                </el-table-->
-                <!--                >-->
                 <el-table
                         :data="tableData"
                         stripe
@@ -96,23 +52,12 @@
     import axios from 'axios'
     import {getTxt} from "../../api/network";
     // import {getTest} from "../../api/network";
-
     export default {
         name: "storage",
         watch:{
           valueSwitch: (newValue, oldValue)=>{
               console.log(newValue)
               console.log(oldValue)
-              if(newValue){
-                axios.post('http://39.106.116.109:9099/file/clean',{
-                    params:{
-                        max:this.max,
-                        min:this.min,
-                    }
-                }).then(res =>{
-                    console.log(res);
-                })
-              }
           }
         },
         data() {
@@ -139,8 +84,52 @@
         },
         methods: {
             del(){
-                axios.post('http://39.106.116.109:9099/file/delete').then(res=>{
+                axios.post('http://39.106.116.109:9095/file/delete').then(res=>{
                     console.log(res);
+                })
+            },
+            clear(){
+                if(this.max === '' || this.min === ''){
+                    alert('必须输入！！！');
+                }else {
+                    // if(typeof (this.max && this.min) === "number"){
+                        this.$notify({
+                            title: '清理',
+                            message: '开始清理！！！',
+                            type: 'success'
+                        });
+                        axios.post('http://39.106.116.109:9095/file/clean',{
+                            params:{
+                                max:this.max,
+                                min:this.min,
+                            }
+                        }).then(res =>{
+                            console.log(res);
+                        })
+                    // }else {
+                    //     alert('请输入0到100的数字');
+                    // }
+
+                }
+                // else {
+                //     if(typeof (this.max && this.min)=== 'number'){
+                //         // if(0<this.max<100){
+                //         //     this.$notify({
+                //         //         title: '清理',
+                //         //         message: '开始清理！！！',
+                //         //         type: 'success'
+                //         //     });
+                //         // }
+                //     }else {
+                //         alert('请输入0到100的数字')
+                //     }
+                //
+                //
+            },
+            fresh(){
+                axios.get('http://39.106.116.109:9095/file/queryAll').then(res=>{
+                    console.log(res.data.data);
+                    this.tableData = res.data.data;
                 })
             }
         },
@@ -149,7 +138,7 @@
             // this.tableData.date = res;
             console.log(res.data.data);
             this.tableData = res.data.data;
-            this.del();
+            // this.del();
             // const res1 = await getTest()
             // console.log(res1);
         }
@@ -157,47 +146,6 @@
 </script>
 
 <style scoped>
-    /*.table-wrapper ::v-deep .el-table {*/
-    /*    !* 表格字体颜色 *!*/
-
-    /*    !* 表格边框颜色 *!*/
-    /*    border: 0px solid #ffffff;*/
-    /*    height: 80%;*/
-    /*}*/
-
-    /*.el-button+.el-button {*/
-    /*    margin-left: 0px;*/
-    /*}*/
-
-    /*!* 删除表格下横线 *!*/
-    /*.table-wrapper ::v-deep .el-table::before {*/
-    /*    left: 0;*/
-    /*    bottom: 0;*/
-    /*    width: 100%;*/
-    /*    height: 0px;*/
-    /*}*/
-    /*!* 删除单元格底部横线 *!*/
-    /*.right ::v-deep .el-table td {*/
-    /*    border-bottom: 2px solid #dfe6ec !important;*/
-    /*}*/
-
-    /*.right ::v-deep .el-table--fit {*/
-    /*    padding: 0px;*/
-    /*}*/
-    /*.right ::v-deep .el-table,*/
-    /*.el-table__expanded-cell {*/
-    /*    background-color: transparent;*/
-    /*}*/
-
-    /*.right ::v-deep .el-table tr {*/
-    /*    !* background-color: transparent !important; *!*/
-    /*    background-color: #262a2e;*/
-    /*    color: aqua;*/
-    /*}*/
-    /*.right ::v-deep .el-table--enable-row-transition .el-table__body td,*/
-    /*.el-table .cell {*/
-    /*    background-color: transparent;*/
-    /*}*/
     .box {
         width: 90%;
         height: 90%;
@@ -214,7 +162,11 @@
         box-shadow: 2px 4px 20px 2px rgb(197 197 197);
         background-color: white;
     }
-
+    .btn{
+        width: 90px;
+        height: 40px;
+        /*margin-left: 150px;*/
+    }
     .big {
         display: flex;
         flex-direction: row;
@@ -295,6 +247,8 @@
     .btn {
         margin-left: 150px;
         margin-bottom: 70px;
+        color:black;
+        border: 1px solid rgba(0,0,0,.2);
     }
 
     .pbtn {

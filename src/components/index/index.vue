@@ -5,10 +5,8 @@
         </div>
     <div class="b-center">
       <el-menu
-        :default-active="activeIndex"
         class="el-menu-demo"
         mode="horizontal"
-        @select="handleSelect"
         background-color="#262a2e"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -17,7 +15,7 @@
           ><router-link to="/ku">首页</router-link></el-menu-item
         >
           <el-menu-item index="2">
-          <router-link to="/network">网络</router-link>
+          <router-link to="/network">网络监控</router-link>
         </el-menu-item>
         <el-submenu index="3">
            <template slot="title">系统管理</template>
@@ -52,7 +50,7 @@ export default {
     return {
       un: "",
       imga: {
-        src: require("../../assets/21.png"),
+        src: require("../../assets/llo.png"),
       },
     }
   },
@@ -82,8 +80,8 @@ export default {
       background-color: #262a2e;
     }
     .bb{
-    height: 40px;
-    padding: 9px 20px;
+    height: 53px;
+    padding: 1px 1px;
     }
 
     .b-center {

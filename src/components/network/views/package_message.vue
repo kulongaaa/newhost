@@ -31,7 +31,7 @@
 <!--                               <el-table-column property="name" label="姓名" width="200"></el-table-column>-->
 <!--                               <el-table-column property="address" label="地址"></el-table-column>-->
 <!--                           </el-table>-->
-                                <el-div ><pre style="width: 100px">{{message}}</pre></el-div>
+                                <el-div ><pre style="width: 1px; ">{{message}}</pre></el-div>
 <!--                           <el-input v-model="message" placeholder="请输入内容"></el-input>-->
                        </el-dialog>
                    </template>
@@ -71,6 +71,14 @@
                     data:'2021-8-3/1627975950.0583127.pcap',
                     // data:'',
                     time:'2021-8-3'
+                },{
+                    data:'2021-8-4/1628046316.3956172.pcap',
+                    // data:'',
+                    time:'2021-8-4'
+                },{
+                    data:'2021-8-4/1628046367.6266155.pcap',
+                    // data:'',
+                    time:'2021-8-4'
                 },
                 ],
                 // gridData: [{

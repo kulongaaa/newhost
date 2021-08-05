@@ -34,10 +34,9 @@
             }
         },
         methods:{
-            // handleUpdateData(data) {
-            //     this.pgkData = data.city;
-            //     console.log(this.pgkData);
-            // },
+            handleUpdateData(message) {
+                console.log(typeof message);
+            },
         }
         // async created(){
         //     const res = await get();
@@ -47,6 +46,9 @@
 </script>
 
 <style scoped>
+    #app{
+        /*height: 100%;*/
+    }
     .package,.card{
         width: 95%;
         /*margin:10px;*/
@@ -63,6 +65,9 @@
     }
     .bor{
         margin-left: 60px;
+        position: relative;
+        overflow: auto;
+        height: 100%;
     }
     .net{
         text-align: center;

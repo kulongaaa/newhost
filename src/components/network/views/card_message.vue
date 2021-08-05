@@ -49,10 +49,10 @@
                                    </el-select>
                                </el-form-item>
                                <el-form-item label="输入数量">
-                                   <el-input v-model="sizeForm.count" aria-placeholder="默认为200"></el-input>
+                                   <el-input v-model="sizeForm.count" placeholder="默认为200"></el-input>
                                </el-form-item>
                                <el-form-item label="输入时间">
-                                   <el-input v-model="sizeForm.to"  palaceholder="默认为120"></el-input>
+                                   <el-input v-model="sizeForm.to"  placeholder="默认为120"></el-input>
                                </el-form-item>
                            </el-form>
                            <div slot="footer" class="dialog-footer">
@@ -71,10 +71,9 @@
 <script>
     // import {get} from "../../../api";
     // import {getPack} from "../../../api/network";
-    // import axios from 'axios'
+    import axios from 'axios'
     import {getCard} from "../../../api/network";
-    import {getStart} from "../../../api/network";
-
+    // import {getStart} from "../../../api/network";
     export default {
         name: "card",
         data(){
@@ -104,6 +103,7 @@
                     count:'',
                     to:'',
                 },
+                message:''
                 // data:''
             }
         },
@@ -115,16 +115,19 @@
             },
             pack(){
                 this.outerVisible = false
-                // axios.get('http://39.106.116.109:9099/api/package/startSniff', {
-                //     params: {
-                //         ifn:this.sizeForm.InterName,
-                //         f:this.choose.region,
-                //         count:this.sizeForm.count,
-                //         to:this.sizeForm.to
-                //     }
-                // }).then(res=>{
-                //    localStorage.setItem('start',res.toString());
-                // })
+                axios.get('http://39.106.116.109:9095/api/package/startSniff', {
+                    params: {
+                        ifn:this.sizeForm.InterName,
+                        f:this.choose.region,
+                        count:this.sizeForm.count,
+                        to:this.sizeForm.to
+                    }
+                }).then(res=>{
+                   // localStorage.setItem('start',res.toString());
+                    console.log(res.data.data.filename);
+                    this.message = res.data.data.filename
+                    this.$emit('updateData',this.message)
+                })
                 this.$alert('<strong>开始抓包</strong>', '提示', {
                     dangerouslyUseHTMLString: true
                 });
@@ -156,14 +159,13 @@
             // this.sizeForm = data.data[0];
             //抓包API
             // this.pack();
-            const res = await getStart();
-            console.log(res);
+            // const res = await getStart();
+            // console.log(res);
             // const res = await getPack();
             // this.data = res.data;
             // this.data = data1;
             // console.log(this.data);
         }
-
     }
 </script>
 

@@ -52,7 +52,7 @@ export default {
       una: "",
       pwd: "",
       una1: "",
-      pwd1: "",
+      pwd1: "", 
       uName: "",
       uPasswd: "",
       utryCode: "",
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     refresh() {
-      getImgBase64("http://39.106.116.109:9095/api/user/getPW").then((v) => {
+      getImgBase64("http://39.106.116.109:9099/api/api/user/getPW").then((v) => {
         this.base = v;
       });
     },

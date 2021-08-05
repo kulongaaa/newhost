@@ -6,11 +6,14 @@
                 <span> 系统时间
 <!--                    <span v-if="value == 0">{{ this.date0 }}</span>-->
 <!--                    <span >{{ this.date1 }}</span>-->
-                        <input type="text" v-model="this.date1" style="width:40%;height: 30px" disabled="" class="txt1">
+<!--                          <span v-if="value == 0"  disabled="" class="txt1">{{ this.date0 }}</span>-->
+<!--                          <span v-if="value == 100" disabled="" class="txt1">{{ this.date1 }}</span>-->
+                        <input type="text" v-model="this.date0" style="width:40%;height: 30px" v-if="value == 0" disabled="" class="txt1">
+                        <input type="text" v-model="this.date1" style="width:40%;height: 30px" v-if="value == 100" disabled="" class="txt1">
                 </span>
 <!--                <button class="btn1">重启服务</button>-->
             </div>
-            <div>系统同步服务IP<input  v-model='ip' class="txt" type="text"/></div>
+            <div>系统同步服务IP<input  v-model='ip' class="txt" placeholder="请输入IP" type="text"/></div>
             <div>
 <!--                <span>自动同步系统时间</span>-->
                <div class="on">
@@ -25,17 +28,25 @@
 <!--                   </el-tooltip>-->
                </div>
             </div>
-            <div>
-<!--                <span>系统管理IP:{{IP}}</span>-->
-            </div>
-            <div>
+
+            <div class="footer">
 <!--                <button class="btn2" @click="exchange">保存</button>-->
-                <el-button
-                        class="btn"
-                        plain
-                        @click="open1">
-                        同步
-                </el-button>
+<!--                <el-button-->
+<!--                        class="btn"-->
+<!--                        plain-->
+<!--                        @click="open1">-->
+<!--                        同步-->
+<!--                </el-button>-->
+                同步系统时间:
+                <el-switch
+                        @change="syn"
+                        class="off"
+                        v-model="value"
+                        active-color="deepskyblue"
+                        inactive-color="#ff4949"
+                        active-value="100"
+                        inactive-value="0">
+                </el-switch>
                 <el-button
                         class="btn"
                         plain
@@ -105,6 +116,13 @@
             }
         },
         methods:{
+            syn(){
+                this.$notify({
+                    // title: '连通性测试',
+                    message: '系统时间同步成功！！！',
+                    type: 'success'
+                });
+            },
             // 将小于10的在前面加0
             appendZero(time){
                 if (time < 10) {
@@ -148,13 +166,16 @@
 </script>
 
 <style scoped>
-    body{
-
-    }
     .box{
         border: 1px solid rgba(0,0,0,.2);
         border-radius: 10px;
-       
+
+        width: 90%;
+        /*height: 100%;*/
+        margin-left: 56px;
+        margin-top: 50px;
+
+
         /*position: fixed;*/
         /*margin-top: -20px;*/
         font-size: 16px;
@@ -163,7 +184,7 @@
         box-shadow: 2px 4px 20px 2px rgb(197 197 197);
         padding: 20px;
         /*background-color: white;*/
-        background-color: #ece9e9;
+        background-color: white;
     }
     .items>div{
         margin: 35px;
@@ -187,17 +208,18 @@
         background-color: white;
     }
     .items{
-        position: absolute;
+        /*position: absolute;*/
         width: 80%;
         height: 45%;
-        margin-left: 90px;
+        margin-left: 142px;
         /*left: 50%; top: 50%;*/
         /*transform: translate(-50%,-50%);*/
         /*background-color: white;*/
         border: 1px solid rgba(0,0,0,.2);
         border-radius: 10px;
-        background-color: white;
+        /*background-color: white;*/
         box-shadow: 2px 4px 20px 2px rgb(197 197 197);
+        background-color: white;
         /*border-radius: 5px;*/
         /*color: #00FFFF;*/
         /*border:8px solid green;*/
@@ -221,12 +243,23 @@
     }
     .txt1{
         margin-left: 80px;
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: 10px;
+        /*width:50%;*/
+        /*height: 60px*/
     }
     .txt,.txt1{
         border-radius: 10px;
     }
     .clock{
-        margin-left: 850px;
-        margin-top: -280px;
+        margin-left: 730px;
+        margin-top: -180px;
+    }
+    .off{
+        margin-left: 10px;
+    }
+    .footer{
+        position: fixed;
+        padding-left: 150px;
     }
 </style>

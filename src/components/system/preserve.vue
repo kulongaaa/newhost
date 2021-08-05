@@ -14,7 +14,7 @@
                     <img src="../../assets/restart.png">
                 </div>
                 <div class="picture4">
-                    <img src="../../assets/status.png">
+                    <img src="../../assets/ssh.png">
                 </div>
                 <div class="a">
                     <h4 >重启设备</h4>
@@ -35,14 +35,14 @@
                     <h4 class="page">SSH Service</h4>
                    <div class="pageD">开启和关闭本机的SSH服务</div>
                     <el-switch
+                            @change="change"
                             active-text="开"
                             inactive-text="关"
-                            width="80"
                             class="switch"
                             v-model="value"
                             active-color="deepskyblue"
                             inactive-color="#ff4949">
-                </el-switch>
+                     </el-switch>
 
                 </div>
             </div>
@@ -70,17 +70,23 @@
     // import {getpre} from "../../api";
     //  import { saveAs } from 'file-saver'
 
-    // import axios from 'axios'
+    import axios from 'axios'
     import {getPre} from "../../api/network";
     export default {
         name: "preserve",
         data() {
             return {
                 mesA: '',
-                value:true
+                value:'0'
             }
         },
         methods: {
+            change(){
+                // console.log('a');
+                if(this.value === ''){
+                    console.log('a');
+                }
+            },
             open1() {
                 this.$notify({
                     title: '成功',
@@ -114,7 +120,10 @@
                 });
             },
             restart2(){
-                // axios.get('http://39.106.116.109:9095/api/conf/restart')
+                axios.get('http://39.106.116.109:9095/api/conf/restart').then(res =>{
+                    console.log(res);
+                })
+                // console.log('a');
                 this.$notify({
                     title: '成功',
                     message: '重启成功！',
@@ -125,7 +134,7 @@
             async created() {
                 const res = await getPre();
                 this.mesA = res.data.data.hostName;
-                console.log(res.data.data);
+                // console.log(res.data.data);
             }
     }
 </script>

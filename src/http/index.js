@@ -16,7 +16,7 @@ export default {
       // console.log('请求的路径是',config.url)
 			// 当用户登录之后会在sessionStorage中存token的值，token就会有值
 			let token = JSON.parse(localStorage.getItem('kulong-m-user'))
-      console.log(token);
+      console.log(token)
 			if(token){
 				// 通过jwt方式验证token的参数携带规则如下
 				config.headers['token'] =token

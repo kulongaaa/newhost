@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div>{{pgkData}}</div>
 <!--        <div>{{this.tableData}}</div>-->
 <!--            <div>{{`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`}}</div>-->
 <!--                <div>{{this.data}}</div>-->
@@ -58,9 +59,9 @@
             // pack1,
             // pack2
         },
-        // props: {
-        //     pgkData
-        // },
+        props: {
+            pgkData:String
+        },
         data() {
             return {
                 tableData: [{
@@ -94,7 +95,7 @@
             handleDelete(row) {
                 console.log(row.data);
                 this.dialogTableVisible = true;
-                axios.get('http://39.106.116.109:9099/api/package/getParsePcap',{
+                axios.get('http://39.106.116.109:9095/api/package/getParsePcap',{
                     params:{
                         pacp_path:row.data
                     }
@@ -105,9 +106,10 @@
         },
         async created(){
             //filename
+            // console.log(this.pgkData);
             const {data} = await getStart();
             this.tableData.data = data.data.filename;
-            console.log(this.tableData.data)
+            // console.log(this.tableData.data)
             //包的名称展示
             const res = await getName();
             // let result = [];
@@ -115,7 +117,7 @@
             // let resultTime = '';
             // let datas = res.data.data;
             this.tableData = res.data;
-            console.log(res.data.data)
+            // console.log(res.data.data)
             // for (var index in datas) {
                 // for (var key in datas[index]) {
                     // for (var pcapIndex in datas[index][key]) {

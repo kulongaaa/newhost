@@ -11,12 +11,13 @@
                         <div>上限:<input type="text" v-model="max"  placeholder="请输入0到100的数字"/>%</div>
                         <div>下限:<input type="text" v-model="min" placeholder="请输入0到100的数字"/>%</div>
                     </div>
-                    <button class="btn" @click="clear">自动清理</button>
-<!--                    <p class="pbtn">自动清理</p>-->
-<!--                    <el-switch-->
-<!--                            v-model="valueSwitch"-->
-<!--                            class="btn">-->
-<!--                    </el-switch>-->
+<!--                    <button class="btn" @click="clear">自动清理</button>-->
+                    <p class="pbtn">自动清理</p>
+                    <el-switch
+                            @change="clear"
+                            v-model="valueSwitch"
+                            class="btn">
+                    </el-switch>
                 </div>
             </div>
             <div class="right">
@@ -90,12 +91,13 @@
             },
             clear(){
                 if(this.max === '' || this.min === ''){
+                    this.valueSwitch = false;
                     alert('必须输入！！！');
                 }else {
                     // if(typeof (this.max && this.min) === "number"){
                         this.$notify({
                             title: '清理',
-                            message: '开始清理！！！',
+                            message: '开始自动清理！！！',
                             type: 'success'
                         });
                         axios.post('http://39.106.116.109:9095/file/clean',{
@@ -136,7 +138,7 @@
         async created() {
             const res = await getTxt();
             // this.tableData.date = res;
-            console.log(res.data.data);
+            // console.log(res.data.data);
             this.tableData = res.data.data;
             // this.del();
             // const res1 = await getTest()
@@ -163,8 +165,8 @@
         background-color: white;
     }
     .btn{
-        width: 90px;
-        height: 40px;
+        /*width: 90px;*/
+        /*height: 40px;*/
         /*margin-left: 150px;*/
     }
     .big {
@@ -246,9 +248,9 @@
 
     .btn {
         margin-left: 150px;
-        margin-bottom: 70px;
-        color:black;
-        border: 1px solid rgba(0,0,0,.2);
+        /*margin-bottom: 65px;*/
+        /*color:black;*/
+        /*border: 1px solid rgba(0,0,0,.2);*/
     }
 
     .pbtn {

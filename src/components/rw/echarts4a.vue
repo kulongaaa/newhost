@@ -192,6 +192,8 @@ import {delrwInfo} from '../../api/index.js'
     methods: {
         
       async onSubmit() {
+        if(this.form.rwmc!=""&&this.form.jbnr!="")
+        {
       await postrwInfo(
         {
            task:{
@@ -205,9 +207,16 @@ import {delrwInfo} from '../../api/index.js'
         this.rdata=data.data.list})
         this.$notify({
           title: "info",
-          message: "添加成功!",
+          message: "添加成功!!!",
           type: "success",
         });
+        }else{
+          this.$notify({
+          title: "info",
+          message: "添加失败!",
+          type: "error",
+        });
+        }
     },
      handleDelete(id) {
       delrwInfo({id}).then(async ()=>{

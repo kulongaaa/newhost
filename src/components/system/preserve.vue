@@ -39,7 +39,7 @@
                             active-text="开"
                             inactive-text="关"
                             class="switch"
-                            v-model="value"
+                            v-model="valueSwitch"
                             active-color="deepskyblue"
                             inactive-color="#ff4949">
                      </el-switch>
@@ -77,15 +77,31 @@
         data() {
             return {
                 mesA: '',
-                value:'0'
+                valueSwitch:false,
             }
         },
         methods: {
             change(){
                 // console.log('a');
-                if(this.value === ''){
-                    console.log('a');
-                }
+               if(this.valueSwitch === true){
+                   this.$notify({
+                       message: 'SSH服务开启！！！',
+                       type: 'success'
+                   });
+                   // console.log('a');
+                   axios.post('http://39.106.116.109:9095/api/conf/setSSHService',{
+                       params:{
+                           ssh:this.valueSwitch
+                       }
+                   }).then(res=>[
+                       console.log(res)
+                   ])
+               }else {
+                   this.$notify({
+                       message: 'SSH服务关闭！！！',
+                       type: 'close'
+                   });
+               }
             },
             open1() {
                 this.$notify({
@@ -120,9 +136,9 @@
                 });
             },
             restart2(){
-                axios.get('http://39.106.116.109:9095/api/conf/restart').then(res =>{
-                    console.log(res);
-                })
+                // axios.get('http://39.106.116.109:9095/api/conf/restart').then(res =>{
+                //     console.log(res);
+                // })
                 // console.log('a');
                 this.$notify({
                     title: '成功',

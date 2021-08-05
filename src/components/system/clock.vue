@@ -8,8 +8,8 @@
 <!--                    <span >{{ this.date1 }}</span>-->
 <!--                          <span v-if="value == 0"  disabled="" class="txt1">{{ this.date0 }}</span>-->
 <!--                          <span v-if="value == 100" disabled="" class="txt1">{{ this.date1 }}</span>-->
-                        <input type="text" v-model="this.date0" style="width:40%;height: 30px" v-if="value == 0" disabled="" class="txt1">
-                        <input type="text" v-model="this.date1" style="width:40%;height: 30px" v-if="value == 100" disabled="" class="txt1">
+                        <input type="text" v-model="this.date0"  style="width:40%;height: 30px" v-if="valueSwitch == false" disabled="" class="txt1">
+                        <input type="text" v-model="this.date1" style="width:40%;height: 30px" v-if="valueSwitch == true" disabled="" class="txt1">
                 </span>
 <!--                <button class="btn1">重启服务</button>-->
             </div>
@@ -41,11 +41,10 @@
                 <el-switch
                         @change="syn"
                         class="off"
-                        v-model="value"
+                        v-model="valueSwitch"
                         active-color="deepskyblue"
                         inactive-color="#ff4949"
-                        active-value="100"
-                        inactive-value="0">
+                       >
                 </el-switch>
                 <el-button
                         class="btn"
@@ -76,7 +75,7 @@
             return{
                 date0:new Date(),
                 date1:new Date(),
-                value: '0',
+                valueSwitch:false,
                 ip:'',
                 isSuccess:'已成功保存!!!',
                 a:'0',
@@ -117,11 +116,13 @@
         },
         methods:{
             syn(){
-                this.$notify({
-                    // title: '连通性测试',
-                    message: '系统时间同步成功！！！',
-                    type: 'success'
-                });
+                if(this.valueSwitch === true){
+                    this.$notify({
+                        // title: '连通性测试',
+                        message: '系统时间同步成功！！！',
+                        type: 'success'
+                    });
+                }
             },
             // 将小于10的在前面加0
             appendZero(time){
@@ -174,8 +175,6 @@
         /*height: 100%;*/
         margin-left: 56px;
         margin-top: 50px;
-
-
         /*position: fixed;*/
         /*margin-top: -20px;*/
         font-size: 16px;
